@@ -3,26 +3,43 @@ const Users = require("./user-model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = require("../config/secrets.js");
+const tokenAuth = require("../auth/token-middleware.js");
+const sessionAuth = require("../auth/session-middleware.js");
 
-router.get("/", (req, res) => {
-  Users.find()
-    .then(user => {
-      res.status(200).json(user);
-    })
-    .catch(err => {
-      res.status(500).json({ Error: "Failed to access database", err });
+router.get("/logout", tokenAuth, (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.send("session not destroyed");
+      } else {
+        res.send("logged out see you soon!");
+      }
     });
+  } else {
+    res.end();
+  }
 });
 
-router.get("/:id", (req, res) => {
-  Users.findById(req.params.id)
-    .then(user => {
-      res.status(200).json(user);
-    })
-    .catch(err => {
-      res.status(500).json({ Error: "Failed to access database", err });
-    });
-});
+// router.get("/", sessionAuth, tokenAuth, (req, res) => {
+//   Users.find()
+//     .then(user => {
+//       res.status(200).json(user);
+//       console.log(req.session);
+//     })
+//     .catch(err => {
+//       res.status(500).json({ Error: "Failed to access database", err });
+//     });
+// });
+
+// router.get("/:id", (req, res) => {
+//   Users.findById(req.params.id)
+//     .then(user => {
+//       res.status(200).json(user);
+//     })
+//     .catch(err => {
+//       res.status(500).json({ Error: "Failed to access database", err });
+//     });
+// });
 
 router.post("/register", (req, res) => {
   let userData = req.body;
@@ -46,7 +63,9 @@ router.post("/login", (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
+        req.session.loggedIn = true;
         const token = genToken(user);
+        // console.log(req.session, token);
         res
           .status(202)
           .json({ message: `Welcome back, ${username}`, user, token });
@@ -59,7 +78,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", tokenAuth, sessionAuth, (req, res) => {
   Users.remove(req.params.id)
     .then(user => {
       if (user) {
@@ -75,7 +94,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", tokenAuth, sessionAuth, (req, res) => {
   const { id } = req.params;
   let { username, password } = req.body;
   const hash = bcrypt.hashSync(password, 12);
@@ -108,7 +127,7 @@ function genToken(user) {
     username: user.username
   };
   const options = {
-    expiresIn: "2h"
+    expiresIn: "12h"
   };
   const token = jwt.sign(payload, secret.jwtSecret, options);
   return token;
