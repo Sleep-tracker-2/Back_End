@@ -20,16 +20,16 @@ router.get("/logout", tokenAuth, (req, res) => {
   }
 });
 
-router.get("/", (req, res) => {
-  Users.find()
-    .then(user => {
-      res.status(200).json(user);
-      console.log(req.session);
-    })
-    .catch(err => {
-      res.status(500).json({ Error: "Failed to access database", err });
-    });
-});
+// router.get("/", (req, res) => {
+//   Users.find()
+//     .then(user => {
+//       res.status(200).json(user);
+//       console.log(req.session);
+//     })
+//     .catch(err => {
+//       res.status(500).json({ Error: "Failed to access database", err });
+//     });
+// });
 
 // router.get("/:id", (req, res) => {
 //   Users.findById(req.params.id)

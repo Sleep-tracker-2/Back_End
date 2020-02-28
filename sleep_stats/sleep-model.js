@@ -4,6 +4,7 @@ module.exports = {
   getSleep,
   addStats,
   findById
+  //   delStat
 };
 
 function findById(id) {
@@ -30,3 +31,10 @@ function getSleep(id) {
 function addStats(data, id) {
   return db("sleep").insert(data, id);
 }
+
+//TODO
+// function delStat(id) {
+//   return db("sleep")
+//     .where({ id })
+//     .del();
+// }

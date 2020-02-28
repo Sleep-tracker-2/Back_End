@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const Stats = require("./sleep-model.js");
+const tokenAuth = require("../auth/token-middleware.js");
+const sessionAuth = require("../auth/session-middleware.js");
 
-router.get("/:id/sleep", (req, res) => {
+router.get("/:id/sleep", tokenAuth, sessionAuth, (req, res) => {
   Stats.getSleep(req.params.id)
     .then(stat => {
       if (stat.length) {
@@ -15,7 +17,7 @@ router.get("/:id/sleep", (req, res) => {
     });
 });
 
-router.post("/:id/sleep", (req, res) => {
+router.post("/:id/sleep", tokenAuth, sessionAuth, (req, res) => {
   console.log(req.params.id, req.body);
   const { id } = req.params;
   const data = req.body;
@@ -39,5 +41,20 @@ router.post("/:id/sleep", (req, res) => {
       res.status(500).json(err.message);
     });
 });
+
+//TODO
+// router.delete("/:id/sleep", (req, res) => {
+//   Stats.delStat(req.params.id)
+//     .then(deleted => {
+//       if (deleted) {
+//         res.status(201).json(deleted);
+//       } else {
+//         res.status(400).json({ message: "inavlid ID" });
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).json(err);
+//     });
+// });
 
 module.exports = router;

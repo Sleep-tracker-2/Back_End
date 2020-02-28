@@ -1,7 +1,9 @@
 const db = require("../data/dbConfig.js");
 
 module.exports = {
-  getComments
+  getComments,
+  findById,
+  addComment
 };
 
 function getComments(id) {
@@ -15,3 +17,16 @@ function getComments(id) {
     )
     .where({ sleep_id: id });
 }
+
+function findById(id) {
+  return db("comments")
+    .where({ id })
+    .first();
+}
+
+async function addComment(data, id) {
+  await db("comments").insert(data, id);
+}
+
+//TODO edit
+//TODO delete
