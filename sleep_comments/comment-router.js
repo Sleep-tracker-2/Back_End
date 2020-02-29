@@ -3,7 +3,7 @@ const Comments = require("./comment-model.js");
 const tokenAuth = require("../auth/token-middleware.js");
 const sessionAuth = require("../auth/session-middleware.js");
 
-router.get("/:id/comments", tokenAuth, sessionAuth, (req, res) => {
+router.get("/:id/comments", (req, res) => {
   Comments.getComments(req.params.id)
     .then(comm => {
       if (comm) {
@@ -17,7 +17,7 @@ router.get("/:id/comments", tokenAuth, sessionAuth, (req, res) => {
     });
 });
 
-router.post("/:id/comments", tokenAuth, sessionAuth, (req, res) => {
+router.post("/:id/comments", (req, res) => {
   const { id } = req.params;
 
   req.body.sleep_id = id;
