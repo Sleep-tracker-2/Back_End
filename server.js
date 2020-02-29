@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const session = require("express-session");
-require("dotenv").config();
+
 const knexSessionStore = require("connect-session-knex")(session);
 
 const UsersRouter = require("./users/user-router");
