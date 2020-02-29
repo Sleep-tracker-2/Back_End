@@ -21,7 +21,7 @@ exports.up = function(knex) {
         .references("users.id")
         .onUpdate("CASCADE")
         .onDelete("CASCADE");
-      tbl.date("date").notNullable();
+      tbl.timestamp("date").defaultTo(knex.fn.now());
       tbl.integer("mood");
       tbl.string("total_sleep");
     })
