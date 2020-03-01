@@ -24,23 +24,10 @@ exports.up = function(knex) {
       tbl.timestamp("date").defaultTo(knex.fn.now());
       tbl.integer("mood");
       tbl.string("total_sleep");
-    })
-    .createTable("comments", tbl => {
-      tbl.increments();
-      tbl.string("comment").notNullable();
-      tbl
-        .integer("sleep_id")
-        .notNullable()
-        .unsigned()
-        .references("sleep.id")
-        .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+      tbl.string("comment");
     });
 };
 
 exports.down = function(knex) {
-  return knex.schema
-    .dropTableIfExists("users")
-    .dropTableIfExists("sleep")
-    .dropTableIfExists("comments");
+  return knex.schema.dropTableIfExists("users").dropTableIfExists("sleep");
 };

@@ -30,6 +30,7 @@
     "express-session": "^1.17.0",
     "global": "^4.4.0",
     "helmet": "^3.21.2",
+    "heroku": "^7.38.2",
     "jest": "^25.1.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.20.4",

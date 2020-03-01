@@ -8,7 +8,7 @@ const knexSessionStore = require("connect-session-knex")(session);
 
 const UsersRouter = require("./users/user-router");
 const SleepRouter = require("./sleep_stats/sleep-router");
-const CommentRouter = require("./sleep_comments/comment-router");
+// const CommentRouter = require("./sleep_comments/comment-router");
 
 const server = express();
 
@@ -39,7 +39,7 @@ server.use(session(sessionConfig));
 
 server.use("/api/users", UsersRouter);
 server.use("/api/users", SleepRouter);
-server.use("/api/sleep", CommentRouter);
+// server.use("/api/sleep", CommentRouter);
 
 server.get("/", (req, res) => {
   res.send("Hello World!");

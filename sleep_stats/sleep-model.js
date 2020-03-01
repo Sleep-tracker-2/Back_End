@@ -23,7 +23,8 @@ function getSleep(id) {
       "sleep.ended_sleep",
       "sleep.date",
       "sleep.mood",
-      "users.username"
+      "users.username",
+      "sleep.comment"
     )
     .where({ user_id: id });
 }
