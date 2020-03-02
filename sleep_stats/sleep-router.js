@@ -34,7 +34,9 @@ router.post("/:id/sleep", (req, res) => {
             res.status(500).json(err.message);
           });
       } else {
-        return res.status(400).json({ message: "ID does not exist" });
+        return res
+          .status(400)
+          .json({ message: "this user does not have sleep records" });
       }
     })
     .catch(err => {
