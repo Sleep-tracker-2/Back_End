@@ -4,12 +4,15 @@ const tokenAuth = require("../auth/token-middleware.js");
 const sessionAuth = require("../auth/session-middleware.js");
 
 router.get("/:id/sleep", (req, res) => {
+  console.log(req.query);
   Stats.getSleep(req.params.id)
     .then(stat => {
       if (stat.length) {
         res.status(200).json(stat);
       } else {
-        res.status(404).json({ message: "that ID does not exist" });
+        res
+          .status(404)
+          .json({ message: "this user does not have sleep records" });
       }
     })
     .catch(err => {
@@ -18,11 +21,9 @@ router.get("/:id/sleep", (req, res) => {
 });
 
 router.post("/:id/sleep", (req, res) => {
-  console.log(req.params.id, req.body);
   const { id } = req.params;
   const data = req.body;
   data.user_id = id;
-  console.log("data", data);
   Stats.findById(id)
     .then(user => {
       if (user) {
@@ -31,12 +32,10 @@ router.post("/:id/sleep", (req, res) => {
             res.status(200).json(added);
           })
           .catch(err => {
-            res.status(500).json(err.message);
+            res.status(500).json({ Error: "this isnt working", err });
           });
       } else {
-        return res
-          .status(400)
-          .json({ message: "this user does not have sleep records" });
+        return res.status(400).json({ message: "that ID does not exist" });
       }
     })
     .catch(err => {
