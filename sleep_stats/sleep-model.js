@@ -29,8 +29,8 @@ function getSleep(id) {
     .where({ user_id: id });
 }
 
-function addStats(data, id) {
-  return db("sleep").insert(data, id);
+function addStats(data) {
+  return db("sleep").insert(data);
 }
 
 //TODO
