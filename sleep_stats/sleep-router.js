@@ -24,23 +24,41 @@ router.post("/:id/sleep", (req, res) => {
   const { id } = req.params;
   const data = req.body;
   data.user_id = id;
-  Stats.findById(id)
-    .then(user => {
-      if (user) {
+  Stats.getSleep(id)
+    .then(sleep => {
+      if (sleep) {
         Stats.addStats(data, id)
           .then(added => {
             res.status(200).json(added);
           })
           .catch(err => {
-            res.status(500).json({ Error: "this isnt working", err });
+            res.status(500).json({ Error: "server error", err });
           });
       } else {
-        return res.status(400).json({ message: "that ID does not exist" });
+        res.status(400).json({ message: "the user does not exist" });
       }
     })
     .catch(err => {
       res.status(500).json(err.message);
     });
+
+  // Stats.findById(id)
+  //   .then(user => {
+  //     if (user) {
+  //       Stats.addStats(data, id)
+  //         .then(added => {
+  //           res.status(200).json(added);
+  //         })
+  //         .catch(err => {
+  //           res.status(500).json({ Error: "this isnt working", err });
+  //         });
+  //     } else {
+  //       return res.status(400).json({ message: "that ID does not exist" });
+  //     }
+  //   })
+  //   .catch(err => {
+  //     res.status(500).json(err.message);
+  //   });
 });
 
 //TODO
