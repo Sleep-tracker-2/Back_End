@@ -36,6 +36,7 @@
     "supertest": "^4.0.2"
   },
   "devDependencies": {
+    "knex-cleaner": "^1.3.0",
     "nodemon": "^2.0.2"
   },
   "engines": {
