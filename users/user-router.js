@@ -1,3 +1,4 @@
+require("dotenv").config();
 const router = require("express").Router();
 const Users = require("./user-model.js");
 const bcrypt = require("bcryptjs");
@@ -129,7 +130,7 @@ function genToken(user) {
   const options = {
     expiresIn: "12h"
   };
-  const token = jwt.sign(payload, secret.jwtSecret, options);
+  const token = jwt.sign(payload, process.env.JWT_SECRET, options);
   return token;
 }
 
