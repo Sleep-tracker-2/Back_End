@@ -17,7 +17,7 @@ function getSleep(id) {
   return db("sleep")
     .join("users", "users.id", "sleep.user_id")
     .select(
-      "sleep.id",
+      "sleep.sleep_id",
       "sleep.user_id",
       "sleep.started_sleep",
       "sleep.ended_sleep",
