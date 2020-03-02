@@ -27,7 +27,7 @@ router.post("/:id/sleep", (req, res) => {
   Stats.getSleep(id)
     .then(sleep => {
       if (sleep) {
-        Stats.addStats(data, id)
+        Stats.addStats(data)
           .then(added => {
             res.status(200).json(added);
           })
