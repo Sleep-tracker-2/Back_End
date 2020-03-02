@@ -7,7 +7,7 @@ const secret = require("../config/secrets.js");
 const tokenAuth = require("../auth/token-middleware.js");
 const sessionAuth = require("../auth/session-middleware.js");
 
-router.get("/logout", (req, res) => {
+router.get("/logout", tokenAuth, sessionAuth, (req, res) => {
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
@@ -79,7 +79,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", tokenAuth, sessionAuth, (req, res) => {
   Users.remove(req.params.id)
     .then(user => {
       if (user) {
@@ -95,7 +95,7 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", tokenAuth, sessionAuth, (req, res) => {
   const { id } = req.params;
   let { username, password } = req.body;
   const hash = bcrypt.hashSync(password, 12);
