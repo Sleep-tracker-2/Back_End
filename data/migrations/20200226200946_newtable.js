@@ -11,7 +11,7 @@ exports.up = function(knex) {
       tbl.string("average_sleep");
     })
     .createTable("sleep", tbl => {
-      tbl.increments();
+      tbl.increments("sleep_id");
       tbl.time("started_sleep").notNullable();
       tbl.time("ended_sleep").notNullable();
       tbl
