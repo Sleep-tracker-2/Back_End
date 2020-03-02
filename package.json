@@ -1,9 +1,6 @@
 {
   "name": "build-week-backend",
   "version": "1.0.0",
-  "engines": {
-    "node": "10.16.0"
-  },
   "description": "back end for build week",
   "main": "index.js",
   "scripts": {
@@ -40,6 +37,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
+  },
+  "engines": {
+    "node": "10.16.0"
   },
   "jest": {
     "testEnvironment": "node"
