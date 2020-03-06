@@ -3,7 +3,7 @@ const Stats = require("./sleep-model.js");
 const tokenAuth = require("../auth/token-middleware.js");
 const sessionAuth = require("../auth/session-middleware.js");
 
-router.get("/:id/sleep", tokenAuth, sessionAuth, (req, res) => {
+router.get("/:id/sleep", sessionAuth, tokenAuth, (req, res) => {
   console.log(req.query);
   Stats.getSleep(req.params.id)
     .then(stat => {
@@ -20,7 +20,7 @@ router.get("/:id/sleep", tokenAuth, sessionAuth, (req, res) => {
     });
 });
 
-router.post("/:id/sleep", tokenAuth, sessionAuth, (req, res) => {
+router.post("/:id/sleep", sessionAuth, tokenAuth, (req, res) => {
   const { id } = req.params;
   const data = req.body;
   data.user_id = id;

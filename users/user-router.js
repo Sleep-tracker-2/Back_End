@@ -7,7 +7,7 @@ const secret = require("../config/secrets.js");
 const tokenAuth = require("../auth/token-middleware.js");
 const sessionAuth = require("../auth/session-middleware.js");
 
-router.get("/logout", tokenAuth, sessionAuth, (req, res) => {
+router.get("/logout", sessionAuth, tokenAuth, (req, res) => {
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
@@ -25,22 +25,21 @@ router.get("/", (req, res) => {
   Users.find()
     .then(user => {
       res.status(200).json(user);
-      console.log(req.session);
     })
     .catch(err => {
       res.status(500).json({ Error: "Failed to access database", err });
     });
 });
 
-// router.get("/:id", (req, res) => {
-//   Users.findById(req.params.id)
-//     .then(user => {
-//       res.status(200).json(user);
-//     })
-//     .catch(err => {
-//       res.status(500).json({ Error: "Failed to access database", err });
-//     });
-// });
+router.get("/:id", (req, res) => {
+  Users.findById(req.params.id)
+    .then(user => {
+      res.status(200).json(user);
+    })
+    .catch(err => {
+      res.status(500).json({ Error: "Failed to access database", err });
+    });
+});
 
 router.post("/register", (req, res) => {
   let userData = req.body;
@@ -68,7 +67,7 @@ router.post("/login", (req, res) => {
         const token = genToken(user);
         // console.log(req.session, token);
         res
-          .status(202)
+          .status(200)
           .json({ message: `Welcome back, ${username}`, user, token });
       } else {
         res.status(401).json({ message: "invalid username/password" });
@@ -79,7 +78,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.delete("/:id", tokenAuth, sessionAuth, (req, res) => {
+router.delete("/:id", sessionAuth, tokenAuth, (req, res) => {
   Users.remove(req.params.id)
     .then(user => {
       if (user) {
@@ -95,7 +94,7 @@ router.delete("/:id", tokenAuth, sessionAuth, (req, res) => {
     });
 });
 
-router.put("/:id", tokenAuth, sessionAuth, (req, res) => {
+router.put("/:id", sessionAuth, tokenAuth, (req, res) => {
   const { id } = req.params;
   let { username, password } = req.body;
   const hash = bcrypt.hashSync(password, 12);
