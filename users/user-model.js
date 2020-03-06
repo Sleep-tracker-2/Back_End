@@ -38,7 +38,7 @@ async function insert(data) {
 
 function remove(id) {
   return db("users")
-    .del()
+    .delete()
     .where("id", id);
 }
 
