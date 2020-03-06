@@ -5,21 +5,21 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = require("../config/secrets.js");
 const tokenAuth = require("../auth/token-middleware.js");
-const sessionAuth = require("../auth/session-middleware.js");
+// const sessionAuth = require("../auth/session-middleware.js");
 
-router.get("/logout", sessionAuth, tokenAuth, (req, res) => {
-  if (req.session) {
-    req.session.destroy(err => {
-      if (err) {
-        res.send("session not destroyed");
-      } else {
-        res.send("logged out see you soon!");
-      }
-    });
-  } else {
-    res.end();
-  }
-});
+// router.get("/logout", tokenAuth, (req, res) => {
+//   if (req.session) {
+//     req.session.destroy(err => {
+//       if (err) {
+//         res.send("session not destroyed");
+//       } else {
+//         res.send("logged out see you soon!");
+//       }
+//     });
+//   } else {
+//     res.end();
+//   }
+// });
 
 router.get("/", (req, res) => {
   Users.find()
@@ -63,7 +63,7 @@ router.post("/login", (req, res) => {
     .first()
     .then(user => {
       if (user && bcrypt.compareSync(password, user.password)) {
-        req.session.loggedIn = true;
+        // req.session.loggedIn = true;
         const token = genToken(user);
         // console.log(req.session, token);
         res
@@ -78,7 +78,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-router.delete("/:id", sessionAuth, tokenAuth, (req, res) => {
+router.delete("/:id", tokenAuth, (req, res) => {
   Users.remove(req.params.id)
     .then(user => {
       if (user) {
@@ -94,7 +94,7 @@ router.delete("/:id", sessionAuth, tokenAuth, (req, res) => {
     });
 });
 
-router.put("/:id", sessionAuth, tokenAuth, (req, res) => {
+router.put("/:id", tokenAuth, (req, res) => {
   const { id } = req.params;
   let { username, password } = req.body;
   const hash = bcrypt.hashSync(password, 12);
