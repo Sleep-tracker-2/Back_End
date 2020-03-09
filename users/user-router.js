@@ -31,15 +31,15 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:id", (req, res) => {
-  Users.findById(req.params.id)
-    .then(user => {
-      res.status(200).json(user);
-    })
-    .catch(err => {
-      res.status(500).json({ Error: "Failed to access database", err });
-    });
-});
+// router.get("/:id", (req, res) => {
+//   Users.findById(req.params.id)
+//     .then(user => {
+//       res.status(200).json(user);
+//     })
+//     .catch(err => {
+//       res.status(500).json({ Error: "Failed to access database", err });
+//     });
+// });
 
 router.post("/register", (req, res) => {
   let userData = req.body;
